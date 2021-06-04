@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "university-of-york/special-circumstances"
+    ignore:
+      - dependency-name: "@aws-cdk*"

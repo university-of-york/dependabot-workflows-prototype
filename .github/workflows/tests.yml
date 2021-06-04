@@ -1,0 +1,27 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  test:
+    runs-on: ubuntu-18.04 # Fix an issue with aws CLI and localstack https://github.com/aws/aws-cli/issues/5262
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com
+          scope: "@university-of-york"
+          always-auth: true
+      - name: bootstrap and build
+        run: |
+          npm ci
+          npm run build
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_READ_TOKEN}}
+      - name: Run tests
+        run: |
+          npm test

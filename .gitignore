@@ -1,0 +1,17 @@
+*.js
+!jest.config.js
+*.d.ts
+!global.d.ts
+node_modules
+dist
+lerna-debug.log
+
+.vscode
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# Parcel build directories
+.cache
+.build

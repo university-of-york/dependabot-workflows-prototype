@@ -1,0 +1,28 @@
+name: publish modules to Github as packages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com
+          scope: "@university-of-york"
+          always-auth: true
+      - name: configure git user
+        run: |
+          git config --global user.email "esg-github-dev-group@york.ac.uk"
+          git config --global user.name "ESG Deploy"
+      - name: build and publish
+        run: |
+          npm ci
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
